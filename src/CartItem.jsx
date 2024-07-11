@@ -36,7 +36,11 @@ const Cart = ({ onContinueShopping }) => {
     if (!isEmptyObj(item)){
         let currentQuantity = item.quantity;
         let newQuantity = currentQuantity + 1;
-        dispatch(updateQuantity(item, newQuantity))
+        let data = {};
+        data.item = item;
+        data.newQuantity = newQuantity;
+
+        dispatch(updateQuantity(data));
         setTotalQuantity(totalQuantity + 1)
     }
   };
@@ -46,7 +50,11 @@ const Cart = ({ onContinueShopping }) => {
         let currentQuantity = item.quantity;
         if (currentQuantity > 0){
             let newQuantity = currentQuantity - 1;
-            dispatch(updateQuantity(item, newQuantity));
+            let data = {};
+            data.item = item;
+            data.newQuantity = newQuantity;
+
+            dispatch(updateQuantity(data));
             setTotalQuantity(totalQuantity - 1);
         }
     }
@@ -61,6 +69,7 @@ const Cart = ({ onContinueShopping }) => {
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    console.log('calculateTotalCost', item)
     let totalCost = 0;
 
     if (!isEmptyObj(item)){
@@ -79,10 +88,10 @@ const Cart = ({ onContinueShopping }) => {
             <img className="cart-item-image" src={item.image} alt={item.name} />
             <div className="cart-item-details">
               <div className="cart-item-name">{item.name}</div>
-              <div className="cart-item-cost">{item.cost}</div>
+              <div className="cart-item-cost">${item.cost}</div>
               <div className="cart-item-quantity">
                 <button className="cart-item-button cart-item-button-dec" onClick={() => handleDecrement(item)}>-</button>
-                <span className="cart-item-quantity-value"></span>
+                <span className="cart-item-quantity-value">{item.quantity}</span>
                 <button className="cart-item-button cart-item-button-inc" onClick={() => handleIncrement(item)}>+</button>
               </div>
               <div className="cart-item-total">Total: ${calculateTotalCost(item)}</div>

@@ -8,17 +8,23 @@ export const CreatSlice = createSlice({
   },
   reducers: {
     addItem: (state, action) => {
-        let newProduct = action.payload;
-        if (!isEmptyObj(newProduct)){
+        let product = action.payload;
+        if (!isEmptyObj(product)){
             if (isArrWithContent(state.items)){
                 // check if plant already exist
-                const isAlreadyExist = state.items.includes(newProduct);
+                const indexProduct = state.items.findIndex(el => el.name == product.name);
+                let isAlreadyExist = (indexProduct >= 0);
                 if (!isAlreadyExist) {
-                    state.items = [ ...state.items, newProduct]
+                    product.quantity = 1;
+                    state.items = [ ...state.items, product]
+                }
+                else {
+                    state.items[indexProduct].quantity += 1;
                 }
             }
             else{
-                state.items = [newProduct]
+                product.quantity = 1;
+                state.items = [product]
             }
         }
     },
@@ -30,13 +36,25 @@ export const CreatSlice = createSlice({
                 const indexProduct = state.items.findIndex(el => el.name == product.name);
                 let isProductInCart = (indexProduct >= 0);
                 if (isProductInCart) {
-                    state.items = state.items.splice(indexProduct)
+                    state.items = state.items.splice(indexProduct, 1)
                 }
             }
         }
     },
     updateQuantity: (state, action) => {
-        console.log('updateQuantity', action.payload);
+        let data = action.payload;
+        if (!isEmptyObj(data)){
+            let product = data.item;
+            if (!isEmptyObj(product)){
+                if (data.newQuantity >= 0){
+                    const indexProduct = state.items.findIndex(el => el.name == product.name);
+                    let isProductInCart = (indexProduct >= 0);
+                    if (isProductInCart) {
+                        state.items[indexProduct].quantity = data.newQuantity;
+                    }
+                }
+            }
+        }
         state.items = state.items;
     },
   },
