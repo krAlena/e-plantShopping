@@ -1,35 +1,73 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeItem, updateQuantity } from './CreatSlice';
+import { removeItem, updateQuantity } from './CreateSlice';
 import './CartItem.css';
+import { isArrWithContent, isEmptyObj } from './assets/globalFuncs';
 
 const Cart = ({ onContinueShopping }) => {
+  const {totalQuantity, setTotalQuantity} = useState(0);
   const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
- 
+    let totalCost = 0;
+
+    if (isArrWithContent(cart)){
+        cart.forEach((item) => {
+            totalCost += item.cost * item.quantity;
+        });
+    }
+
+    return totalCost;
   };
 
   const handleContinueShopping = (e) => {
-   
+    if (typeof(onContinueShopping) == "function"){
+        onContinueShopping()
+    }
   };
 
-
+  const handleCheckoutShopping = (e) => {
+    alert('Functionality to be added for future reference');
+  };
 
   const handleIncrement = (item) => {
+    if (!isEmptyObj(item)){
+        let currentQuantity = item.quantity;
+        let newQuantity = currentQuantity + 1;
+        dispatch(updateQuantity(item, newQuantity))
+        setTotalQuantity(totalQuantity + 1)
+    }
   };
 
   const handleDecrement = (item) => {
-   
+    if (!isEmptyObj(item)){
+        let currentQuantity = item.quantity;
+        if (currentQuantity > 0){
+            let newQuantity = currentQuantity - 1;
+            dispatch(updateQuantity(item, newQuantity));
+            setTotalQuantity(totalQuantity - 1);
+        }
+    }
   };
 
   const handleRemove = (item) => {
+    if (!isEmptyObj(item)){
+        dispatch(removeItem(item));
+        setTotalQuantity(totalQuantity - 1);
+    }
   };
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
+    let totalCost = 0;
+
+    if (!isEmptyObj(item)){
+        totalCost = item.cost * item.quantity;
+    }
+
+    return totalCost;
   };
 
   return (

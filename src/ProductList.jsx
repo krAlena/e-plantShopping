@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-// import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import './ProductList.css'
 import { isArrWithContent, isEmptyObj } from './assets/globalFuncs';
-import {addItem} from './CreatSlice.jsx'
+import {addItem} from './CreateSlice.jsx'
+import CartItem from './CartItem.jsx'
 
 function ProductList() {
   
@@ -213,31 +214,39 @@ function ProductList() {
             ]
         }
     ];
-   const styleObj={
-    backgroundColor: '#4CAF50',
-    color: '#fff!important',
-    padding: '15px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignIems: 'center',
-    fontSize: '20px',
-   }
-   const styleObjUl={
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '1100px',
-   }
-   const styleA={
-    color: 'white',
-    fontSize: '30px',
-    textDecoration: 'none',
-   }
-    // const dispatch = useDispatch();
+    const styleObj={
+        backgroundColor: '#4CAF50',
+        color: '#fff!important',
+        padding: '15px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignIems: 'center',
+        fontSize: '20px',
+    }
+    const styleObjUl={
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '1100px',
+    }
+    const styleA={
+        color: 'white',
+        fontSize: '30px',
+        textDecoration: 'none',
+    }
+    const dispatch = useDispatch();
 
-    const [addedToCart, setAddedToCart] = useState([]);
+    const cartItems = useSelector((state) => state.items);
+    // const [addedToCart, setAddedToCart] = useState([]);
+    const [addedToCart, setAddedToCart] = useState({});
     const handleAddToCart = (plant) => {
-        // dispatch(addItem(plant));
+        if (!isEmptyObj(plant)){
+            dispatch(addItem(plant));
+            setAddedToCart((prevState) => ({
+                ...prevState,
+                [plant.name]: true, // Set the product name as key and value as true to indicate it's added to cart
+            }));
+        }
     }
 
     const calculateTotalCost = (items) => {
@@ -245,7 +254,7 @@ function ProductList() {
 
         if (isArrWithContent(items)){
             items.forEach((item) => {
-                // totalCost += item.cost * item.quantity;
+                totalCost += item.cost * item.quantity;
             });
         }
 
@@ -254,6 +263,9 @@ function ProductList() {
 
     const plantsTotalCost = calculateTotalCost(addedToCart);
 
+    const continueToShopping = () => {
+        document.getElementById("cartContent").scrollIntoView()
+    }
     return (
         <div>
              <div className="navbar" style={styleObj}>
@@ -270,12 +282,12 @@ function ProductList() {
               
             </div>
             <div style={styleObjUl}>
-                <div> <a href="#" style={styleA}>Plants</a></div>
-                <div> <a href="#" style={styleA}><h1 className='cart'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68"><rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle><path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path></svg></h1></a></div>
+                <div> <a href="#productsList" style={styleA}>Plants</a></div>
+                <div> <a href="#cartContent" style={styleA}><h1 className='cart'><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" id="IconChangeColor" height="68" width="68"><rect width="156" height="156" fill="none"></rect><circle cx="80" cy="216" r="12"></circle><circle cx="184" cy="216" r="12"></circle><path d="M42.3,72H221.7l-26.4,92.4A15.9,15.9,0,0,1,179.9,176H84.1a15.9,15.9,0,0,1-15.4-11.6L32.5,37.8A8,8,0,0,0,24.8,32H8" fill="none" stroke="#faf9f9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" id="mainIconPathAttribute"></path></svg></h1></a></div>
             </div>
         </div>
 
-        <div className="product-grid">
+        <div id="productsList" className="product-grid">
             {isArrWithContent(plantsArray)
                 ? plantsArray.map((plantsGroup, index) => (
                     !isEmptyObj(plantsGroup)
@@ -287,8 +299,8 @@ function ProductList() {
                                         <div className="product-card" key={plantIndex}>
                                             <img className="product-image" src={plant.image} alt={plant.name} />
                                             <div className="product-title">{plant.name}</div>
-                                            {/* <div className="product-description">{plant.description}</div>
-                                            <div className="product-price">{plant.cost}</div> */}
+                                            <div className="product-description">{plant.description}</div>
+                                            <div className="product-price">{plant.cost}</div>
                                             <button className="product-button"  onClick={() => handleAddToCart(plant)}>Add to Cart</button>
                                         </div>))
                                     : null
@@ -303,6 +315,9 @@ function ProductList() {
 
         </div>
 
+        <div id="cartContent">
+            <CartItem onContinueShopping={() => continueToShopping()}/>
+        </div>
     </div>
     );
 }
