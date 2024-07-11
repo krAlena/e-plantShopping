@@ -1,5 +1,9 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+// import { useSelector, useDispatch } from "react-redux";
 import './ProductList.css'
+import { isArrWithContent, isEmptyObj } from './assets/globalFuncs';
+import {addItem} from './CreatSlice.jsx'
+
 function ProductList() {
   
     const plantsArray = [
@@ -229,6 +233,27 @@ function ProductList() {
     fontSize: '30px',
     textDecoration: 'none',
    }
+    // const dispatch = useDispatch();
+
+    const [addedToCart, setAddedToCart] = useState([]);
+    const handleAddToCart = (plant) => {
+        // dispatch(addItem(plant));
+    }
+
+    const calculateTotalCost = (items) => {
+        let totalCost = 0;
+
+        if (isArrWithContent(items)){
+            items.forEach((item) => {
+                // totalCost += item.cost * item.quantity;
+            });
+        }
+
+        return totalCost;
+    };
+
+    const plantsTotalCost = calculateTotalCost(addedToCart);
+
     return (
         <div>
              <div className="navbar" style={styleObj}>
@@ -251,7 +276,30 @@ function ProductList() {
         </div>
 
         <div className="product-grid">
-
+            {isArrWithContent(plantsArray)
+                ? plantsArray.map((plantsGroup, index) => (
+                    !isEmptyObj(plantsGroup)
+                        ? (<div key={index}>
+                            <h1><div>{plantsGroup.category}</div></h1>
+                            <div className="product-list">
+                                {isArrWithContent(plantsGroup.plants)
+                                    ? plantsGroup.plants.map((plant, plantIndex) => (
+                                        <div className="product-card" key={plantIndex}>
+                                            <img className="product-image" src={plant.image} alt={plant.name} />
+                                            <div className="product-title">{plant.name}</div>
+                                            {/* <div className="product-description">{plant.description}</div>
+                                            <div className="product-price">{plant.cost}</div> */}
+                                            <button className="product-button"  onClick={() => handleAddToCart(plant)}>Add to Cart</button>
+                                        </div>))
+                                    : null
+                                }
+                            </div>
+                        </div>)
+                        :   null
+                    
+                ))
+                : null
+            }
 
         </div>
 
