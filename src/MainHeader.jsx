@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+
 const MainHeader = ({ onGoToCart }) => {
     const styleObj={
         backgroundColor: '#4CAF50',
@@ -20,6 +23,8 @@ const MainHeader = ({ onGoToCart }) => {
         textDecoration: 'none',
     }
 
+    const totalCartQuantity = useSelector(state => state.cart.totalQuantity);
+    
     return(
         <div className="navbar" style={styleObj}>
             <div className="tag">

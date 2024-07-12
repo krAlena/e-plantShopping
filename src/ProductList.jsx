@@ -246,9 +246,6 @@ function ProductList({onGoToCart}) {
     ];
 
     const dispatch = useDispatch();
-
-    const cartItems = useSelector(state => state.cart.items);
-    const totalCartQuantity = useSelector(state => state.cart.totalQuantity);
     const [addedToCart, setAddedToCart] = useState([]);
     const handleAddToCart = (plant) => {
         if (!isEmptyObj(plant)){
@@ -281,8 +278,6 @@ function ProductList({onGoToCart}) {
 
         return totalCost;
     };
-
-    const plantsTotalCost = calculateTotalCost(cartItems);
 
     return (
     <div>

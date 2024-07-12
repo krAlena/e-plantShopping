@@ -50,7 +50,7 @@ function App() {
         <ProductList onGoToHome={goToHome} onGoToCart={goToCart}/>
       </div>
       <div id="cartContent" className={`product-list-container ${showCart ? 'visible' : ''}`}>
-        <CartItem onContinueShopping={continueToShopping}/>
+        <CartItem onContinueShopping={continueToShopping} onGoToCart={goToCart}/>
     </div>
     </div>
   );
