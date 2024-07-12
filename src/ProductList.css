@@ -180,6 +180,11 @@ body {
     color: white;
     display: flex;
 }
+
+.btn{
+    cursor: pointer;
+}
+
 .cart_quantity_count{
     margin-top: 16px;
     /* background-color: red; */

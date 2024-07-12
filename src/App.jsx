@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import ProductList from './ProductList';
+import CartItem from './CartItem';
 import './App.css';
 import AboutUs from './AboutUs';
 
@@ -12,6 +13,18 @@ function App() {
   const handleGetStartedClick = () => {
     setShowProductList(true);
   };
+
+  const continueToShopping = () => {
+    setShowCart(false)
+  }
+
+  const goToHome = () => {
+    setShowProductList(false);
+  }
+
+  const goToCart = () => {
+    setShowCart(true)
+  }
 
   return (
     <div className="app-container">
@@ -34,8 +47,11 @@ function App() {
 
       </div>
       <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
-        <ProductList />
+        <ProductList onGoToHome={goToHome} onGoToCart={goToCart}/>
       </div>
+      <div id="cartContent" className={`product-list-container ${showCart ? 'visible' : ''}`}>
+        <CartItem onContinueShopping={continueToShopping}/>
+    </div>
     </div>
   );
 }
