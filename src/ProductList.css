@@ -219,6 +219,7 @@ body {
 /* ProductList.css */
 
 .product-button {
+    border-radius: 4px;
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
