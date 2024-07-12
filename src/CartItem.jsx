@@ -83,7 +83,7 @@ const Cart = ({ onContinueShopping, onGoToCart }) => {
 
   return (
     <>
-        <MainHeader onGoToCart={onGoToCart}/>
+        <MainHeader onGoToCart={onGoToCart} onContinueShopping={onContinueShopping}/>
         <div className="cart-container">
         <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount()}</h2>
         <div>

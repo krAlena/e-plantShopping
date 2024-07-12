@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 
-const MainHeader = ({ onGoToCart }) => {
+const MainHeader = ({ onGoToCart, onContinueShopping }) => {
     const styleObj={
         backgroundColor: '#4CAF50',
         color: '#fff!important',
@@ -21,6 +21,7 @@ const MainHeader = ({ onGoToCart }) => {
         color: 'white',
         fontSize: '30px',
         textDecoration: 'none',
+        cursor: 'pointer'
     }
 
     const totalCartQuantity = useSelector(state => state.cart.totalQuantity);
@@ -40,7 +41,7 @@ const MainHeader = ({ onGoToCart }) => {
 
             </div>
             <div style={styleObjUl}>
-                <div> <a href="#productsList" style={styleA}>Plants</a></div>
+                <div onClick={onContinueShopping}> <div style={styleA}>Plants</div></div>
                 <div className="cart-icon-parent btn" onClick={onGoToCart}>
 
                     <div className="cart-items-qty">{totalCartQuantity}</div>

@@ -5,7 +5,7 @@ import { isArrWithContent, isEmptyObj, sumObjFieldByArr } from './assets/globalF
 import {addItem} from './CreateSlice.jsx'
 import MainHeader from './MainHeader.jsx';
 
-function ProductList({onGoToCart}) {
+function ProductList({onGoToCart, onContinueShopping}) {
   
     const plantsArray = [
         {
@@ -281,7 +281,7 @@ function ProductList({onGoToCart}) {
 
     return (
     <div>
-        <MainHeader onGoToCart={onGoToCart}/>
+        <MainHeader onContinueShopping={onContinueShopping} onGoToCart={onGoToCart}/>
         
         <div id="productsList" className="product-grid">
             {isArrWithContent(plantsArray)
