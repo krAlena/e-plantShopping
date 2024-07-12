@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { isArrWithContent, isEmptyObj } from './assets/globalFuncs';
+import { isArrWithContent, isEmptyObj, sumObjFieldByArr } from './assets/globalFuncs';
 
 export const CreatSlice = createSlice({
   name: 'cart',
   initialState: {
     items: [], // Initialize items as an empty array
+    totalQuantity: 0
   },
   reducers: {
     addItem: (state, action) => {
@@ -12,19 +13,21 @@ export const CreatSlice = createSlice({
         if (!isEmptyObj(product)){
             if (isArrWithContent(state.items)){
                 // check if plant already exist
-                const indexProduct = state.items.findIndex(el => el.name == product.name);
+                const indexProduct = state.items.findIndex(el => el.id == product.id);
                 let isAlreadyExist = (indexProduct >= 0);
                 if (!isAlreadyExist) {
                     product.quantity = 1;
                     state.items = [ ...state.items, product]
+                    state.totalQuantity = sumObjFieldByArr(state.items, 'quantity')
                 }
-                else {
-                    state.items[indexProduct].quantity += 1;
-                }
+                // else {
+                //     state.items[indexProduct].quantity += 1;
+                // }
             }
             else{
                 product.quantity = 1;
                 state.items = [product]
+                state.totalQuantity = 1;
             }
         }
     },
@@ -33,10 +36,11 @@ export const CreatSlice = createSlice({
         if (!isEmptyObj(product)){
             if (isArrWithContent(state.items)){
                 // check if plant inside te cart
-                const indexProduct = state.items.findIndex(el => el.name == product.name);
+                const indexProduct = state.items.findIndex(el => el.id == product.id);
                 let isProductInCart = (indexProduct >= 0);
                 if (isProductInCart) {
                     state.items = state.items.splice(indexProduct, 1)
+                    state.totalQuantity = sumObjFieldByArr(state.items, 'quantity')
                 }
             }
         }
@@ -47,10 +51,11 @@ export const CreatSlice = createSlice({
             let product = data.item;
             if (!isEmptyObj(product)){
                 if (data.newQuantity >= 0){
-                    const indexProduct = state.items.findIndex(el => el.name == product.name);
+                    const indexProduct = state.items.findIndex(el => el.id == product.id);
                     let isProductInCart = (indexProduct >= 0);
                     if (isProductInCart) {
                         state.items[indexProduct].quantity = data.newQuantity;
+                        state.totalQuantity = sumObjFieldByArr(state.items, 'quantity')
                     }
                 }
             }

@@ -26,3 +26,21 @@ export function isEmptyObj(obj) {
 export function isArrWithContent(arr) {
     return (Array.isArray(arr) && arr.length > 0);
 }
+
+export function sumObjFieldByArr(arrObjs, fieldName){
+    let result = 0;
+
+    if (isArrWithContent(arrObjs)){
+        let initialValue = 0;
+        result = arrObjs.reduce(function (accumulator, elem) {
+            if (elem[fieldName] != undefined && !isNaN(elem[fieldName])){
+                return accumulator + elem[fieldName];
+            }
+            else{
+                return accumulator;
+            }
+        }, initialValue)
+    }
+
+    return result;
+}

@@ -39,6 +39,22 @@ body {
    
 }
 
+
+.cart-icon-parent{
+    display: -webkit-box;     /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;        /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;     /* TWEENER - IE 10 */
+    display: -webkit-flex;    /* NEW - Chrome */
+    display: flex;            /* NEW, Spec - Opera 12.1, Firefox 20+ */
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+.cart-items-qty{
+    position: absolute;
+    font-size: 1.2em;
+    color: white;
+}
 /* Product Grid */
 .product-grid {
     display:flex;
@@ -217,7 +233,8 @@ body {
   
   .product-button.added-to-cart {
     background-color: grey; /* Grey when product is added */
-  }
+    pointer-events: none;
+}
   @media (max-width: 1200px) {
     .product-card {
       flex: 1 1 calc(33.33% - 20px); /* Adjust width for 3 cards per row with 20px gap on medium screens */
@@ -234,7 +251,6 @@ body {
         flex-direction: column; /* Change flex direction to stack items vertically */
         align-items: center; /* Align items to the center of the container */
       }
-    
       .tag {
         margin-bottom: 20px; /* Add margin bottom for spacing */
         text-align: center; /* Align text to the center */
