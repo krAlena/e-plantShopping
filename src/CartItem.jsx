@@ -71,7 +71,6 @@ const Cart = ({ onContinueShopping, onGoToCart }) => {
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    console.log('calculateTotalCost', item)
     let totalCost = 0;
 
     if (!isEmptyObj(item)){

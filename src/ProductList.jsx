@@ -246,7 +246,9 @@ function ProductList({onGoToCart, onContinueShopping}) {
     ];
 
     const dispatch = useDispatch();
-    const [addedToCart, setAddedToCart] = useState([]);
+    const cartItems = useSelector(state => state.cart.items);
+
+    const [addedToCart, setAddedToCart] = useState(cartItems.map(el => el.id));
     const handleAddToCart = (plant) => {
         if (!isEmptyObj(plant)){
             dispatch(addItem(plant));

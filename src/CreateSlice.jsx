@@ -39,7 +39,7 @@ export const CreatSlice = createSlice({
                 const indexProduct = state.items.findIndex(el => el.id == product.id);
                 let isProductInCart = (indexProduct >= 0);
                 if (isProductInCart) {
-                    state.items = state.items.splice(indexProduct, 1)
+                    state.items.splice(indexProduct, 1)
                     state.totalQuantity = sumObjFieldByArr(state.items, 'quantity')
                 }
             }
