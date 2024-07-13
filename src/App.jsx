@@ -46,9 +46,13 @@ function App() {
           </div>
 
       </div>
-      <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
-        <ProductList onGoToHome={goToHome} onContinueShopping={continueToShopping} onGoToCart={goToCart}/>
-      </div>
+      {
+        !showCart
+          ? <div className={`product-list-container ${showProductList ? 'visible' : ''}`}>
+              <ProductList onGoToHome={goToHome} onContinueShopping={continueToShopping} onGoToCart={goToCart}/>
+            </div>
+          : null
+      }
       <div id="cartContent" className={`cart-content-container ${showCart ? 'visible' : ''}`}>
         <CartItem onGoToHome={goToHome} onContinueShopping={continueToShopping} onGoToCart={goToCart}/>
     </div>
